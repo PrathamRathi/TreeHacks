@@ -2,6 +2,11 @@
     width: 700px;
 }
 
+.cell {
+    display: flex;
+    justify-content: center;
+}
+
 td {
     text-align: center;
 }
