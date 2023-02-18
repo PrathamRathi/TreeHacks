@@ -16,6 +16,8 @@ class LessonPlanView(viewsets.ModelViewSet):
 class IepView(viewsets.ModelViewSet):
     serializer_class = IepSerializer
     queryset = IEP.objects.all()
+    def perform_create(self, serializer):
+        return serializer.save(student = self.request.data.get('student'))
 
 class LpsaView(viewsets.ModelViewSet):
     serializer_class = LpsaccommodationSerializer
