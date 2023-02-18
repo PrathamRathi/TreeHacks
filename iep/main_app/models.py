@@ -21,7 +21,7 @@ class LessonPlan(models.Model):
 
 class IEP(models.Model):
     uuid = models.UUIDField(primary_key=True, unique = True, default = uuid.uuid4, editable = False)
-    student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    student = models.ForeignKey(Student, blank=False, on_delete=models.CASCADE)
     accommodation = models.TextField()
 
     def __str__(self):
