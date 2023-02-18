@@ -1,24 +1,24 @@
 from rest_framework import serializers
 from .models import *
 
-class StudentSerializer(serializers.Serializer):
+class StudentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Student
         fields = ('uuid', 'name', 'grade')
 
-class LessonPlanSerializer(serializers.Serializer):
+class LessonPlanSerializer(serializers.ModelSerializer):
     class Meta:
         model = LessonPlan
         fields = ('uuid', 'name', 'overview', 'objectives')
 
-class IEPSerializer(serializers.Serializer):
+class IepSerializer(serializers.ModelSerializer):
     class Meta:
         model = IEP
-        fields = ('uuid', 'student', 'accomodation')
+        fields = ('uuid', 'student', 'accommodation')
         depth = 1
 
-class LpsAccomodationSerializer(serializers.Serializer):
+class LpsaccommodationSerializer(serializers.ModelSerializer):
     class Meta:
-        model = LpsAccomodation
-        fields = ('uuid', 'lesson_plan', 'student', 'accomodation')
+        model = LpsAccommodation
+        fields = ('uuid', 'lesson_plan', 'student', 'accommodation')
         depth = 1
