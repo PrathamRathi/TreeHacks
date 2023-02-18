@@ -11,12 +11,22 @@
 }
 
 .modal-content {
-    width: 500px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     background-color: #fff;
+    height: 400px;
+    width: 700px;
+    box-shadow: 12px 4px 14px 6px rgba(0, 0, 0, 0.5);
+    border-radius: 23px;
 }
 
-.modal-header, .modal-footer {
-    padding: 10px;
+.modal-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
 }
 
 .modal-title {
@@ -25,6 +35,59 @@
 
 .modal-body {
     padding: 10px;
-    border-top: 1px solid #eee;
-    border-bottom: 1px solid #eee;
+}
+
+.closeBtn {
+    background-color: #3b80f7;
+}
+
+form {
+    width: 90%;
+    display: flex;
+}
+
+.firstCol {
+    display: flex;
+    flex-direction: column;
+}
+
+.secondCol {
+    display: flex;
+    flex-direction: column;
+}
+
+.close-icon {
+    color: red;
+    align-self: flex-end;
+    margin-right: 2rem;
+    margin-top: -2.5rem;
+}
+
+.close-icon:hover {
+    background-color: red;
+    color: white;
+    cursor: pointer;
+}
+
+.custom-file-upload {
+    background-color: #3b80f7;
+    color: white;
+    width: 60px;
+    height: 20px;
+    border: 1px solid #3b80f7;
+    border-radius: 73px;  
+}
+
+.custom-file-upload:hover {
+    cursor: pointer;
+    
+}
+
+#importFile {
+    display: none;
+}
+
+.closeBtn:hover, .chooseFile:hover {
+    cursor: pointer;
+    background-color: #2868d5;
 }

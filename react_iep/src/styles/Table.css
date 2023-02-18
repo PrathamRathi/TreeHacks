@@ -1,5 +1,51 @@
+.tablePage {
+    display: flex;
+    flex-direction: column;
+    width: 85%;
+    margin-top: 5rem;
+}
+
 .table {
-    width: 700px;
+    background: linear-gradient(180deg, rgba(131, 144, 250, 0.42) 0%, #8390FA 100%);
+    border: 5px solid #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 23px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 1.5rem;
+    margin-top: 1rem;
+
+}
+
+.tableRow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 90%;
+    background-color: #FFFFFF;
+    border-radius: 23px;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.lessonPlan {
+    display: flex;
+    flex-direction: column;
+    font-weight: 700;
+    font-size: 16px;
+    min-height: 160px;
+}
+
+.lessonPlan > h1 {
+    color: #4F8FFF;
+}
+
+.lessonPlan > p {
+    color: #4F8FFF;
+    margin-top: -0.5rem;
+    padding-right: 2rem;
 }
 
 .cell {
@@ -7,6 +53,44 @@
     justify-content: center;
 }
 
-td {
-    text-align: center;
+.buttons {
+    display: flex;
+    justify-content: space-between;
+}
+
+button {
+    background-color: #9098EE;
+    color: #fff;
+    border: none;
+    width: 160px;
+    height: 40px;
+    border: 1px solid #9098EE;
+    border-radius: 73px;   
+    font-weight: 600;
+    font-size: 14px; 
+}
+
+button:hover {
+    cursor: pointer;
+    background-color: #757fea;
+}
+
+.viewBtn {
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+    border: 2px solid #3869FF;
+    border-radius: 73px;
+    background-color: #fff;
+    color: #3869FF;
+}
+
+.addExportBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.viewBtn:hover {
+    filter: none;
+    background-color: #3869FF;
+    color: white;
 }

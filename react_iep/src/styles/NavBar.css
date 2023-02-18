@@ -1,0 +1,37 @@
+.navBar {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    margin-left: 2rem;
+}
+
+.logo > h1 {
+    color: #fff;
+}  
+
+.navigation {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.navigation > p {
+    color: #fff;
+}
+
+.navigation > p:hover {
+    cursor: pointer;
+    color: #FFA1B9;
+}
+
+.logo:hover {
+    cursor: pointer;
+}
+
+#selected {
+    color: #FFA1B9;
+}
