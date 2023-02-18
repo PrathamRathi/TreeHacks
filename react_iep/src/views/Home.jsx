@@ -9,9 +9,7 @@ const Home = () => {
       <header>
         <h1>This will be the title</h1>
       </header>
-      <body>
-        <Table />
-      </body>
+      <Table />
       <footer>This is the footer</footer>
       {/* <Modal /> */}
     </div>

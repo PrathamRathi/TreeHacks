@@ -2,7 +2,7 @@ import { BarLoader } from "react-spinners";
 import { useState } from "react";
 import "../styles/Table.css";
 
-const Table = () => {
+const TableItem = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   function clicked() {
@@ -11,15 +11,14 @@ const Table = () => {
       setIsLoading(false);
     }, 5000);
   }
+
   return (
-    <table className="table">
-      <caption>Lesson Plans</caption>
-      <th>Lesson Plan Title</th>
-      <th>Date</th>
-      <th>Status/View</th>
-      <tr>
-        <td>Title</td>
-        <td>Date</td>
+    <div className="tableRow">
+      <div className="lessonPlan">
+        <h1>Title</h1>
+        <p>This is the lesson plan description</p>
+      </div>
+      <div className="view">
         {isLoading ? (
           <td className="cell">
             <BarLoader />
@@ -29,8 +28,18 @@ const Table = () => {
             <button onClick={clicked}>Click me!</button>
           </td>
         )}
-      </tr>
-    </table>
+      </div>
+    </div>
+  );
+};
+
+const Table = () => {
+  return (
+    <div className="table">
+      <TableItem />
+      <TableItem />
+      <TableItem />
+    </div>
   );
 };
 
