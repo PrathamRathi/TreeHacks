@@ -21,7 +21,7 @@ const Table = () => {
         <td>Title</td>
         <td>Date</td>
         {isLoading ? (
-          <td>
+          <td className="cell">
             <BarLoader />
           </td>
         ) : (
