@@ -23,11 +23,15 @@ def post(request):
                     grade_map[grade.student.uuid] = [{'grade': grade.percentage, 'date': grade.date}]
                 else:
                     grade_map[grade.student.uuid].append({'grade': grade.percentage, 'date': grade.date})
-
+            response = {}
             for student in students:
                 iep = IEP.objects.all().filter(student=student.uuid)[0]
-                print(requestPipeline(subject, objective, overview, iep.accommodation, student.uuid, grade_map))
-            response = {'test': 'test'}           
+                text, status = requestPipeline(subject, objective, overview, iep.accommodation, 
+                                               student.uuid, grade_map, student.standard, student.disability)
+                if not status:
+                    lpsa = LpsAccommodation(lesson_plan=LessonPlan.objects.last(), student=student, accommodation = text)
+                    lpsa.save()
+                response[str(student.uuid)] = text         
             return JsonResponse(response)
 
 class StudentView(viewsets.ModelViewSet):
