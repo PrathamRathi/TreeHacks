@@ -30,6 +30,9 @@ def post(request):
                     text, status = requestPipeline(subject, objective, overview, iep.accommodation, 
                                                 student.uuid, grade_map, student.standard, student.disability)
                     if not status:
+                        if LessonPlan.objects.last() == None:
+                            lp = LessonPlan(name="initial plan", objectives=objective, overview=overview, subject=subject, present_date="02/19/2023")
+                            lp.save()
                         lpsa = LpsAccommodation(lesson_plan=LessonPlan.objects.last(), student=student, accommodation = text)
                         lpsa.save()
                     response[str(student.uuid)] = text         

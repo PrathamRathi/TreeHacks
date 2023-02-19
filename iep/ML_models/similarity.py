@@ -31,8 +31,8 @@ def similarity(jaccard, jensen, weight):
     return weight*jaccard + ((1-weight)*jensen)
 
 def formatJensenTopics(topic_distribution1, topic_distribution2):
-    max1 = max(topic_distribution1[1])
-    max2 = max(topic_distribution2[1])
+    max1 = topic_distribution1.count(":")
+    max2 = len(topic_distribution2)
     maxTopics = max(max1, max2)
     result1 = np.zeros(maxTopics+1)
     result2 = np.zeros(maxTopics+1)
