@@ -1,20 +1,34 @@
 from django.shortcuts import render
-
+from django.http import JsonResponse
+from django.http import QueryDict
 from rest_framework import viewsets
-
+from django.views.decorators.csrf import csrf_exempt
+from ML_models.analyze_in_request import requestPipeline
+import json
 from .models import *
 from .serializers import *
 
+@csrf_exempt
+def post(request):
+        if request.method == 'POST':
+            data = json.loads(request.body.decode())
+            objective = data.get('objective')
+            overview = data.get('overview')
+            subject = data.get('subject')
+            students = Student.objects.all()
+            grades = Grade.objects.all()
+            grade_map = {}
+            for grade in grades:
+                if grade.student.uuid not in grade_map:
+                    grade_map[grade.student.uuid] = [{'grade': grade.percentage, 'date': grade.date}]
+                else:
+                    grade_map[grade.student.uuid].append({'grade': grade.percentage, 'date': grade.date})
 
-# def post(self,request):
-#         if request.method == 'POST':
-#             data = request.POST
-#             objective = data.get('objective')
-#             overview = data.get('overview')
-#             subject = data.get('subject')
-#             ieps = IEP.objects.all()
-#             grades = Grade.objects.all()        
-#             return JsonResponse(response)
+            for student in students:
+                iep = IEP.objects.all().filter(student=student.uuid)[0]
+                print(requestPipeline(subject, objective, overview, iep.accommodation, student.uuid, grade_map))
+            response = {'test': 'test'}           
+            return JsonResponse(response)
 
 class StudentView(viewsets.ModelViewSet):
     serializer_class = StudentSerializer

@@ -14,6 +14,8 @@ def calculate_grade_trend(grades):
     return regression_slope, average_grade
 
 def is_struggling(grades, regression_threshold, average_threshold, recent_grade_threshold, regression_weight, recent_grade_weight):
+    if len(grades) < 4:
+        return False
     regression_slope, average_grade = calculate_grade_trend(grades)
 
     # Determine if the student is struggling based on the regression slope, average grade, and most recent grade

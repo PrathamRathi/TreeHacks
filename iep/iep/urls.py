@@ -28,5 +28,6 @@ router.register(r'grades', views.GradeView, 'grades')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include(router.urls))
+    path('api/', include(router.urls)),
+    path('api/predict', views.post, name='predict')
 ]

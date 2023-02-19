@@ -3,20 +3,20 @@ from gensim.utils import simple_preprocess
 from rake_nltk import Rake
 import pandas as pd
 
-from grades_analysis import is_struggling
-from model_summaries import accommodation_topic_summaries, math_objective_topic_summaries, math_overview_topic_summaries, ela_objective_topic_summaries, ela_overview_topic_summaries
-from similarity import similarity_between_distribution_and_keyword_pair
+from .grades_analysis import is_struggling
+from .model_summaries import accommodation_topic_summaries, math_objective_topic_summaries, math_overview_topic_summaries, ela_objective_topic_summaries, ela_overview_topic_summaries
+from .similarity import similarity_between_distribution_and_keyword_pair
 
 # Initialize RAKE module
 rake = Rake()
 
 # Path to models
-ACCOMMODATION_MODEL_PATH = 'models/accommodation_lda.model'
-MATH_OVERVIEW_MODEL_PATH = 'models/math_overview_lda.model'
-MATH_OBJECTIVE_MODEL_PATH = 'models/math_objective_lda.model'
-ELA_OVERVIEW_MODEL_PATH = 'models/ela_overview_lda.model'
-ELA_OBJECTIVE_MODEL_PATH = 'models/ela_objective_lda.model'
-ANALYZED_ACCOMMODATION_CSV = 'data/analyzed_accommodation.csv'
+ACCOMMODATION_MODEL_PATH = './ML_models/models/accommodation_lda.model'
+MATH_OVERVIEW_MODEL_PATH = './ML_models/models/math_overview_lda.model'
+MATH_OBJECTIVE_MODEL_PATH = './ML_models/models/math_objective_lda.model'
+ELA_OVERVIEW_MODEL_PATH = './ML_models/models/ela_overview_lda.model'
+ELA_OBJECTIVE_MODEL_PATH = './ML_models/models/ela_objective_lda.model'
+ANALYZED_ACCOMMODATION_CSV = './ML_models/data/analyzed_accommodation.csv'
 
 def pick_model(model_path: str) -> models.LdaModel:
     return models.LdaModel.load(model_path)
@@ -42,7 +42,7 @@ def rakeKeywords(text, top_n_keywords):
 def getAscendingGradesOfStudent(grade_list):
     grades = [ (obj['grade'], obj['date']) for obj in grade_list ] # get 'grade','date' attributes for sorting grades
     grades.sort(key=lambda x: x[1]) # sort by python date obj ascending datetime 
-    return grades
+    return [grade for grade, _ in grades]
 
 def requestPipeline(subject: str, overview_document: str, objective_document: str, accommodation_document: str, id_of_student: str, id_to_grade_map: dict):
     # If student not is struggling return -> list of (distribution keyword pairs), False
@@ -63,8 +63,8 @@ def requestPipeline(subject: str, overview_document: str, objective_document: st
     objective_model = pick_model(objective_model_path)
 
     accommodation_distribution, accommodation_keywords = analyze_document(accommodation_model, accommodation_document)
-    overview_distribution, overview_keywords = analyze_document(overview_model)
-    objective_distribution, objective_keywords = analyze_document(objective_model)
+    overview_distribution, overview_keywords = analyze_document(overview_model, overview_document)
+    objective_distribution, objective_keywords = analyze_document(objective_model, objective_document)
 
     accommodation_distribution_dict = { accommodation_topic_summaries[topic]: probability for topic, probability in accommodation_distribution }
     overview_distribution_dict = { overview_summaries[topic]: probability for topic, probability in overview_distribution }
