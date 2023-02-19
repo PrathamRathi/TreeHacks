@@ -5,7 +5,7 @@ from .models import *
 class LessonPlanSerializer(serializers.ModelSerializer):
     class Meta:
         model = LessonPlan
-        fields = ('uuid', 'name', 'overview', 'objectives')
+        fields = ('uuid', 'name', 'overview', 'objectives', 'subject', 'present_date')
 
 class IepSerializer(serializers.ModelSerializer):
     student = serializers.PrimaryKeyRelatedField(queryset=Student.objects.all(), many=False)
@@ -25,4 +25,10 @@ class LpsaccommodationSerializer(serializers.ModelSerializer):
 class StudentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Student
-        fields = ('uuid', 'name', 'grade')
+        fields = ('uuid', 'name', 'standard', "disability")
+
+class GradeSerializer(serializers.ModelSerializer):
+    student = serializers.PrimaryKeyRelatedField(queryset=Student.objects.all(), many=False)
+    class Meta:
+        model = Grade
+        fields = ('student', 'percentage', 'subject', 'date')
