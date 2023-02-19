@@ -11,25 +11,51 @@ import "../styles/DefaultTable.css";
 const ENV = "http://127.0.0.1:8000/api/";
 const LESSON_PLAN = ENV + "lesson-plans/";
 const MODEL_PREDICT = ENV + "predict";
+const LPS = ENV + "lps-accommodations/";
 
 const TableItem = (props) => {
   const { lesson } = props;
   const [viewing, setViewing] = useState(false);
   const [isLoading, setIsLoading] = useState();
+  const [isEditing, setIsEditing] = useState();
+  const [accomodations, setAccomodations] = useState();
+
+  function submitEdit(event) {
+    event.preventDefault();
+    console.log(lesson);
+    console.log(event.target.value);
+  }
 
   useEffect(() => {
-    console.log(lesson);
-    if (lesson.accomodations === undefined) {
-      setIsLoading(false);
+    if (accomodations === undefined) {
+      console.log({
+        objective: lesson.objectives,
+        overview: lesson.overview,
+        subject: lesson.subject,
+      });
+      setIsLoading(true);
       axios
         .post(MODEL_PREDICT, {
-          objective: lesson.objective,
+          objective: lesson.objectives,
           overview: lesson.overview,
           subject: lesson.subject,
         })
         .then((res) => {
           console.log(res);
+          lesson.notLoaded = false;
+          axios
+            .get(LPS)
+            .then((res) => {
+              setIsLoading(false);
+            })
+            .catch((err) => {
+              console.error(err);
+            });
+        })
+        .catch((err) => {
+          console.error(err);
           setIsLoading(false);
+          lesson.notLoaded = false;
         });
     }
   }, []);
@@ -44,7 +70,33 @@ const TableItem = (props) => {
           <h2>Objectives</h2>
           <p>{lesson.objectives}</p>
           <h2>Accomodations</h2>
-          <p>{lesson.accomodations}</p>
+          {accomodations &&
+            Object.entries(accomodations).map((a) => {
+              if (Array.isArray(a[1])) {
+                //handle multiple
+              } else {
+                return (
+                  <>
+                    <div className="editAccom">
+                      <h3>{a[0]}</h3>
+                      <button onClick={() => setIsEditing(true)}>Edit</button>
+                    </div>
+                    {isEditing ? (
+                      <form onSubmit={submitEdit}>
+                        <textarea placeholder={a[1]}></textarea>
+                        <button type="submit">Submit</button>
+                        <button onClick={() => setIsEditing(false)}>
+                          Close
+                        </button>
+                      </form>
+                    ) : (
+                      <p>{a[1]}</p>
+                    )}
+                  </>
+                );
+              }
+            })}
+
           <button className="collapseBtn" onClick={() => setViewing(false)}>
             Condense
           </button>
@@ -83,14 +135,21 @@ const Table = () => {
 
   const sendData = (formData) => {
     axios.post(LESSON_PLAN, formData).then((res) => {
-      getLessons();
+      axios.get(LESSON_PLAN).then((res) => {
+        let preLessons = res.data;
+        preLessons = preLessons.map((lesson) => ({
+          ...lesson,
+          notLoaded: true,
+        }));
+        setLessons(preLessons.reverse());
+        console.log(res.data);
+      });
     });
   };
 
   function getLessons() {
     axios.get(LESSON_PLAN).then((res) => {
       setLessons(res.data.reverse());
-      console.log(res.data);
     });
   }
 
@@ -173,6 +232,10 @@ const Table = () => {
                       required
                       placeholder="Enter Subject"
                     >
+                      <option disabled selected value>
+                        {" "}
+                        -- select an option --{" "}
+                      </option>
                       <option value="Math">Math</option>
                       <option value="Reading & Writing">
                         Reading & Writing

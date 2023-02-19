@@ -133,6 +133,10 @@ const GradesTable = () => {
                         name="studentID"
                         id="studentID"
                       >
+                        <option disabled selected value>
+                          {" "}
+                          -- select an option --{" "}
+                        </option>
                         {studentObj &&
                           studentObj.length > 0 &&
                           studentObj.map((student) => {
@@ -157,6 +161,10 @@ const GradesTable = () => {
                         name="subject"
                         id="subject"
                       >
+                        <option disabled selected value>
+                          {" "}
+                          -- select an option --{" "}
+                        </option>
                         <option value="Math">Math</option>
                         <option value="Reading & Writing">
                           Reading & Writing
