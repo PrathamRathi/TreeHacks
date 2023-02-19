@@ -10,6 +10,7 @@ import "../styles/DefaultTable.css";
 
 const ENV = "http://127.0.0.1:8000/api/";
 const LESSON_PLAN = ENV + "lesson-plans/";
+const MODEL_PREDICT = ENV + "predict";
 
 const TableItem = (props) => {
   const { lesson } = props;
@@ -17,9 +18,19 @@ const TableItem = (props) => {
   const [isLoading, setIsLoading] = useState();
 
   useEffect(() => {
+    console.log(lesson);
     if (lesson.accomodations === undefined) {
-      // setIsLoading(true);
-      //call axios model here
+      setIsLoading(false);
+      axios
+        .post(MODEL_PREDICT, {
+          objective: lesson.objective,
+          overview: lesson.overview,
+          subject: lesson.subject,
+        })
+        .then((res) => {
+          console.log(res);
+          setIsLoading(false);
+        });
     }
   }, []);
 
@@ -79,6 +90,7 @@ const Table = () => {
   function getLessons() {
     axios.get(LESSON_PLAN).then((res) => {
       setLessons(res.data.reverse());
+      console.log(res.data);
     });
   }
 

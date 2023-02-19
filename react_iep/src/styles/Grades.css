@@ -5,6 +5,16 @@
     justify-content: space-between;
 }
 
+.topHeader {
+    width: 100%;;
+    display: flex;
+    justify-content: space-between;
+}
+
+.edit {
+    margin-right: 1rem;
+}
+
 .container {
     display: flex;
     flex-direction: column;
@@ -85,4 +95,8 @@ table tr:last-child {
 
 #select {
     background-color: #9ca2f6;
+}
+
+#studentID {
+    width: 300px;
 }
