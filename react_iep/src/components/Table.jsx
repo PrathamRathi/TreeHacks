@@ -12,7 +12,9 @@ const ENV = "http://127.0.0.1:8000/api/";
 const LESSON_PLAN = ENV + "lesson-plans/";
 const MODEL_PREDICT = ENV + "predict";
 const LPS = ENV + "lps-accommodations/";
+
 const STUDENT = ENV + "students/";
+
 
 const TableItem = (props) => {
   const { lesson } = props;
@@ -44,6 +46,15 @@ const TableItem = (props) => {
 
   useEffect(() => {
     if (accomodations && accomodations.length === 0) {
+
+  function submitEdit(event) {
+    event.preventDefault();
+    console.log(lesson);
+    console.log(event.target.value);
+  }
+
+  useEffect(() => {
+    if (accomodations === undefined) {
       console.log({
         objective: lesson.objectives,
         overview: lesson.overview,
@@ -61,6 +72,14 @@ const TableItem = (props) => {
           lesson.notLoaded = false;
           setAccomodations(res.data);
           setIsLoading(false);
+          axios
+            .get(LPS)
+            .then((res) => {
+              setIsLoading(false);
+            })
+            .catch((err) => {
+              console.error(err);
+            });
         })
         .catch((err) => {
           console.error(err);
@@ -98,6 +117,7 @@ const TableItem = (props) => {
                     </>
                   );
                 }))}
+
 
           <button className="collapseBtn" onClick={() => setViewing(false)}>
             Condense
