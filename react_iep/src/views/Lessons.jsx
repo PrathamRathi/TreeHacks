@@ -4,10 +4,6 @@ import { Table } from "../components";
 import "../styles/Lessons.css";
 
 const Lessons = () => {
-  useEffect(() => {
-    axios.get("");
-  }, []);
-
   return (
     <div className="lessons">
       <Table />

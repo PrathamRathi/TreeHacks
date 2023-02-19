@@ -34,6 +34,7 @@
     display: flex;
     flex-direction: column;
     font-weight: 700;
+    width: 100%;
     font-size: 16px;
     min-height: 160px;
 }
@@ -75,12 +76,18 @@ button:hover {
     background-color: #757fea;
 }
 
-.viewBtn {
+.viewBtn, .collapseBtn {
     filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
     border: 2px solid #3869FF;
     border-radius: 73px;
     background-color: #fff;
     color: #3869FF;
+}
+
+.collapseBtn {
+    justify-self: center;
+    margin-bottom: 1rem;
+    align-self: center;
 }
 
 .addExportBtn {
@@ -89,8 +96,13 @@ button:hover {
     justify-content: center;
 }
 
-.viewBtn:hover {
+.viewBtn:hover, .collapseBtn:hover {
     filter: none;
     background-color: #3869FF;
     color: white;
+}
+
+h2 {
+    color: #4F8FFF;
+    font-size: 20px;
 }
