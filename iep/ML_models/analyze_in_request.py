@@ -6,6 +6,7 @@ import pandas as pd
 from .grades_analysis import is_struggling
 from .model_summaries import accommodation_topic_summaries, math_objective_topic_summaries, math_overview_topic_summaries, ela_objective_topic_summaries, ela_overview_topic_summaries
 from .similarity import similarity_between_distribution_and_keyword_pair
+from .openai_api_call import makeOpenAIrequest
 
 # Initialize RAKE module
 rake = Rake()
@@ -44,7 +45,7 @@ def getAscendingGradesOfStudent(grade_list):
     grades.sort(key=lambda x: x[1]) # sort by python date obj ascending datetime 
     return [grade for grade, _ in grades]
 
-def requestPipeline(subject: str, overview_document: str, objective_document: str, accommodation_document: str, id_of_student: str, id_to_grade_map: dict):
+def requestPipeline(subject: str, overview_document: str, objective_document: str, accommodation_document: str, id_of_student: str, id_to_grade_map: dict, student_grade: str, student_disability: str):
     # If student not is struggling return -> list of (distribution keyword pairs), False
     # Else return -> list of suggested similar accommodations, True 
     if subject == "Math":
@@ -76,7 +77,10 @@ def requestPipeline(subject: str, overview_document: str, objective_document: st
     grades = getAscendingGradesOfStudent(id_to_grade_map[id_of_student])
 
     if not is_struggling(grades, regression_threshold, average_threshold, recent_grade_threshold, regression_weight = 1, recent_grade_weight = 2):
-        return ((accommodation_distribution_dict, accommodation_keywords),(overview_distribution_dict, overview_keywords),(objective_distribution_dict, objective_keywords)), False
+        analyzed_results = ((accommodation_distribution_dict, accommodation_keywords),(overview_distribution_dict, overview_keywords),(objective_distribution_dict, objective_keywords))
+        response = makeOpenAIrequest(student_grade, student_disability, analyzed_results)
+        return response.choices[0].text, False
+
     else:
         # Struggling Student
         df = pd.read_csv(ANALYZED_ACCOMMODATION_CSV)
