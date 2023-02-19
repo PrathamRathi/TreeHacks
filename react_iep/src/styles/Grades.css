@@ -1,0 +1,88 @@
+.grades {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 90%;
+    margin-top: 5rem;
+}
+
+
+table {
+    background: linear-gradient(180deg, #9ca2f6 0%, #F1F2FF 25.99%);
+    border-radius: 23px;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+td {
+    text-align: center;
+    padding: 1rem;
+}
+
+th {
+    color: #4F8FFF;
+    padding-bottom: 1rem;
+    padding-top: 1.5rem;
+}
+
+table td {
+    border-left: 1px solid #6C7076;
+    border-right: 1px solid #6C7076;
+    border-top: 1px solid #6C7076;
+}
+
+table th {
+    border-left: 1px solid #6C7076;
+}
+
+table th:first-child {
+    border-left: none;
+    border-bottom: none;
+}
+
+table td:first-child {
+    border-left: none;
+}
+
+table td:last-child {
+    border-right: none;
+    border-bottom: none;
+}
+
+table tr:first-child {
+    border-top: none;
+}
+
+table tr:last-child {
+    border-bottom: none;
+}
+
+.tabs {
+    display: flex;
+    align-self: flex-start;
+    margin-left: 1.5rem;
+    margin-bottom: -0.3rem;
+}
+
+.tabs > p {
+    border-radius: 5px 5px 0 0;
+    background-color: #ADB2FF;
+    padding: 1rem;
+    margin: auto 0.25rem 0.25rem auto;
+}
+
+.tabs > p:hover {
+    cursor: pointer;
+    background-color: #9ca2f6;
+}
+
+#select {
+    background-color: #9ca2f6;
+}

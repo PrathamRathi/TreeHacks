@@ -67,7 +67,6 @@ const Table = () => {
   const [date, setDate] = useState();
   const [overview, setOverview] = useState();
   const [objectives, setObjectives] = useState();
-  const [uuid, setUuid] = useState();
 
   useEffect(() => {
     getLessons();

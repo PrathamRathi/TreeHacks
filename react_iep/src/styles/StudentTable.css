@@ -15,7 +15,7 @@
     flex-wrap: wrap;
 }
 
-.student {
+.student, .iepstudent {
     background-color: white;
     display: flex;
     flex-direction: column;
@@ -31,8 +31,6 @@
 .header {
     display: flex;
     align-items: center;
-    justify-content: space-evenly;
-    width: 100%;
 }
 
 .header > img {
@@ -47,4 +45,51 @@
     text-align: center;
     font-size: 18px;
     padding: 0.75rem 1rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+    display: block;
+    line-height: 1em; 
+    max-height: 2em;
+    word-break: keep-all;
+}
+
+.iepname {
+    background-color: #FFB20C;
+    display: flex;
+    width: 200px;
+    border-radius: 23px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 0.5rem;
+
+    
+}
+
+.iepname > h1 {
+    text-align: center;
+    color: white;
+    font-size: 18px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+    display: block;
+    line-height: 1em; 
+    max-height: 2em;
+    word-break: keep-all;
+    margin-bottom: 0;
+    margin-top: 0.5rem;
+}
+
+.iepname > p {
+    margin-top: 1rem;
+    font-size: 12px;
+    color: white;
+    margin-top: 0.1rem;
+}
+
+.export:hover {
+    cursor: pointer;
+    background-color: beige;
 }
