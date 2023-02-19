@@ -11,28 +11,66 @@ import "../styles/DefaultTable.css";
 const ENV = "http://127.0.0.1:8000/api/";
 const LESSON_PLAN = ENV + "lesson-plans/";
 const MODEL_PREDICT = ENV + "predict";
+const LPS = ENV + "lps-accommodations/";
+const STUDENT = ENV + "students/";
 
 const TableItem = (props) => {
   const { lesson } = props;
   const [viewing, setViewing] = useState(false);
   const [isLoading, setIsLoading] = useState();
+  const [isEditing, setIsEditing] = useState();
+  const [accomodations, setAccomodations] = useState();
+  const [plan, setPlan] = useState();
+  const [student, setStudent] = useState();
+
+  // function submitEdit(event) {
+  //   let uuid;
+  //   axios.get(STUDENT, { params: { uuid:  } });
+  // }
+  function handleSelect(event) {
+    setPlan(event.target.value);
+  }
 
   useEffect(() => {
-    console.log(lesson);
-    if (lesson.accomodations === undefined) {
-      setIsLoading(false);
+    axios.get(LPS).then((res) => {
+      console.log(res);
+      setAccomodations(res.data);
+    });
+  }, []);
+
+  useEffect(() => {
+    console.log(accomodations);
+  }, [accomodations]);
+
+  useEffect(() => {
+    if (accomodations && accomodations.length === 0) {
+      console.log({
+        objective: lesson.objectives,
+        overview: lesson.overview,
+        subject: lesson.subject,
+      });
+      setIsLoading(true);
       axios
         .post(MODEL_PREDICT, {
-          objective: lesson.objective,
+          objective: lesson.objectives,
           overview: lesson.overview,
           subject: lesson.subject,
         })
         .then((res) => {
           console.log(res);
+          lesson.notLoaded = false;
+          setAccomodations(res.data);
           setIsLoading(false);
+        })
+        .catch((err) => {
+          console.error(err);
+          setIsLoading(false);
+          lesson.notLoaded = false;
         });
+    } else {
+      setIsLoading(false);
     }
-  }, []);
+  }, [accomodations]);
 
   return (
     <div className="tableRow">
@@ -43,8 +81,24 @@ const TableItem = (props) => {
           <p>{lesson.overview}</p>
           <h2>Objectives</h2>
           <p>{lesson.objectives}</p>
-          <h2>Accomodations</h2>
-          <p>{lesson.accomodations}</p>
+          <h2>Accommodations</h2>
+          {accomodations &&
+            (!Array.isArray(accomodations)
+              ? Object.entries(accomodations).map((a) => {
+                  <div>
+                    <h3 style={{ color: "#3869FF" }}>{a[0]}</h3>
+                    <p>{a[1]}</p>
+                  </div>;
+                })
+              : accomodations.map((a) => {
+                  return (
+                    <>
+                      <h3 style={{ color: "#3869FF" }}>{a.uuid}</h3>
+                      <p>{a.accommodation}</p>
+                    </>
+                  );
+                }))}
+
           <button className="collapseBtn" onClick={() => setViewing(false)}>
             Condense
           </button>
@@ -83,14 +137,21 @@ const Table = () => {
 
   const sendData = (formData) => {
     axios.post(LESSON_PLAN, formData).then((res) => {
-      getLessons();
+      axios.get(LESSON_PLAN).then((res) => {
+        let preLessons = res.data;
+        preLessons = preLessons.map((lesson) => ({
+          ...lesson,
+          notLoaded: true,
+        }));
+        setLessons(preLessons.reverse());
+        console.log(res.data);
+      });
     });
   };
 
   function getLessons() {
     axios.get(LESSON_PLAN).then((res) => {
       setLessons(res.data.reverse());
-      console.log(res.data);
     });
   }
 
@@ -148,7 +209,7 @@ const Table = () => {
               <div className="modal-title">Add New Lesson Plan</div>
             </div>
             <div className="modal-body">
-              <form onSubmit={handleSubmit}>
+              <form className="form" onSubmit={handleSubmit}>
                 <div className="colContainer">
                   <div className="firstCol">
                     <label htmlFor="lessonPlanTitle">
@@ -173,6 +234,10 @@ const Table = () => {
                       required
                       placeholder="Enter Subject"
                     >
+                      <option disabled selected value>
+                        {" "}
+                        -- select an option --{" "}
+                      </option>
                       <option value="Math">Math</option>
                       <option value="Reading & Writing">
                         Reading & Writing
