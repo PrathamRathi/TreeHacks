@@ -24,6 +24,7 @@ router.register(r'students', views.StudentView, 'student')
 router.register(r'lesson-plans', views.LessonPlanView, 'lesson-plan')
 router.register(r'ieps', views.IepView, 'ieps')
 router.register(r'lps-accommodations', views.LpsaView, 'lps-accommodations')
+router.register(r'grades', views.GradeView, 'grades')
 
 urlpatterns = [
     path('admin/', admin.site.urls),

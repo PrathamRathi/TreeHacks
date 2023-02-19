@@ -25,4 +25,10 @@ class LpsaccommodationSerializer(serializers.ModelSerializer):
 class StudentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Student
-        fields = ('uuid', 'name', 'grade')
+        fields = ('uuid', 'name', 'standard', "disability")
+
+class GradeSerializer(serializers.ModelSerializer):
+    student = serializers.PrimaryKeyRelatedField(queryset=Student.objects.all(), many=False)
+    class Meta:
+        model = Grade
+        fields = ('student', 'percentage', 'subject', 'date')

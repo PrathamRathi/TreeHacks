@@ -1,14 +1,34 @@
 from django.db import models
 import uuid
 
+SUBJECTS_CHOICES =(
+    ("Math", "Math"),
+    ("Reading", "Reading"),
+)
+
+DISABILITY_CHOICES = (
+    ("ADHD", "ADHD"),
+    ("Hearing", "Hearing"),
+    ("ASD", "ASD"),
+    ("Learning Disability", "Learning Disability"),
+    ("None", "None")
+)
+
 # Create your models here.
 class Student(models.Model):
     uuid = models.UUIDField(primary_key=True, unique = True, default = uuid.uuid4, editable = False)
     name = models.CharField(max_length=255)
-    grade = models.IntegerField(default = 0)
+    standard = models.IntegerField(default = 0)
+    disability = models.CharField(max_length=255, choices=DISABILITY_CHOICES)
     
     def __str__(self):
         return self.name
+
+class Grade(models.Model):
+    percentage = models.FloatField(default = 0)
+    date = models.DateField()
+    student = models.ForeignKey(Student, blank=False, on_delete=models.CASCADE)
+    subject = models.CharField(max_length = 50, choices=SUBJECTS_CHOICES)
 
 class LessonPlan(models.Model):
     uuid = models.UUIDField(primary_key=True, unique = True, default = uuid.uuid4, editable = False)
