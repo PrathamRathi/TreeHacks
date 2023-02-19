@@ -20,33 +20,26 @@ const GradesRow = ({ student }: props) => {
 
 const GradesTable = () => {
   const [subject, setSubject] = useState("math");
+  const [mathGrades, setMathGrades] = useState();
+  const [readGrades, setReadGrades] = useState();
 
   useEffect(() => {
     axios.get(GRADES).then((res) => {
       console.log(res.data);
+      const mathArr = [];
+      const readArr = [];
+      res.data.forEach((grade) => {
+        if (grade.subject === "Math") {
+          mathArr.push(grade);
+        } else {
+          readArr.push(grade);
+        }
+      });
+      setMathGrades(mathArr);
+      setReadGrades(readArr);
     });
   }, []);
 
-  const mathGrades = [
-    {
-      name: "John Smith",
-      id: 1234,
-      percent: "98",
-      grade: "A",
-    },
-    {
-      name: "Jane Smith",
-      id: 123234,
-      percent: "96",
-      grade: "A",
-    },
-    {
-      name: "Joe Rogan",
-      id: 123214,
-      percent: "68",
-      grade: "D+",
-    },
-  ];
   return (
     <div className="container">
       <div className="tabs">
