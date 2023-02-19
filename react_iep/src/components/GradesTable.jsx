@@ -1,8 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 import "../styles/Grades.css";
 
 const MATH = "math";
 const READ = "reading";
+const ENV = "http://127.0.0.1:8000/api/";
+const GRADES = ENV + "grades/";
 
 const GradesRow = ({ student }: props) => {
   return (
@@ -17,6 +20,13 @@ const GradesRow = ({ student }: props) => {
 
 const GradesTable = () => {
   const [subject, setSubject] = useState("math");
+
+  useEffect(() => {
+    axios.get(GRADES).then((res) => {
+      console.log(res.data);
+    });
+  }, []);
+
   const mathGrades = [
     {
       name: "John Smith",
@@ -54,21 +64,23 @@ const GradesTable = () => {
         </p>
       </div>
       <table>
-        {mathGrades && mathGrades.length > 0 ? (
-          <>
-            <tr>
-              <th>Full Name</th>
-              <th>Student ID</th>
-              <th>Percentage</th>
-              <th>Grade</th>
-            </tr>
-            {mathGrades.map((grade) => {
-              return <GradesRow key={grade.id} student={grade} />;
-            })}
-          </>
-        ) : (
-          <div></div>
-        )}
+        <tbody>
+          {mathGrades && mathGrades.length > 0 ? (
+            <>
+              <tr>
+                <th>Full Name</th>
+                <th>Student ID</th>
+                <th>Percentage</th>
+                <th>Grade</th>
+              </tr>
+              {mathGrades.map((grade) => {
+                return <GradesRow key={grade.id} student={grade} />;
+              })}
+            </>
+          ) : (
+            <div></div>
+          )}
+        </tbody>
       </table>
     </div>
   );
