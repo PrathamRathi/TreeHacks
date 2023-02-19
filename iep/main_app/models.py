@@ -13,8 +13,10 @@ class Student(models.Model):
 class LessonPlan(models.Model):
     uuid = models.UUIDField(primary_key=True, unique = True, default = uuid.uuid4, editable = False)
     name = models.CharField(max_length=255)
+    subject = models.CharField(max_length=255)
     overview = models.TextField()
     objectives = models.TextField()
+    present_date = models.CharField(max_length=255)
 
     def __str__(self):
         return self.name

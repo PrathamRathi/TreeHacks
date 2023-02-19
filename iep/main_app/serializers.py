@@ -5,7 +5,7 @@ from .models import *
 class LessonPlanSerializer(serializers.ModelSerializer):
     class Meta:
         model = LessonPlan
-        fields = ('uuid', 'name', 'overview', 'objectives')
+        fields = ('uuid', 'name', 'overview', 'objectives', 'subject', 'present_date')
 
 class IepSerializer(serializers.ModelSerializer):
     student = serializers.PrimaryKeyRelatedField(queryset=Student.objects.all(), many=False)
