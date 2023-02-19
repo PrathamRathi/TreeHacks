@@ -3,15 +3,7 @@ import uuid
 
 SUBJECTS_CHOICES =(
     ("Math", "Math"),
-    ("Reading", "Reading"),
-)
-
-DISABILITY_CHOICES = (
-    ("ADHD", "ADHD"),
-    ("Hearing", "Hearing"),
-    ("ASD", "ASD"),
-    ("Learning Disability", "Learning Disability"),
-    ("None", "None")
+    ("Reading & Writing", "Reading & Writing"),
 )
 
 # Create your models here.
@@ -19,7 +11,7 @@ class Student(models.Model):
     uuid = models.UUIDField(primary_key=True, unique = True, default = uuid.uuid4, editable = False)
     name = models.CharField(max_length=255)
     standard = models.IntegerField(default = 0)
-    disability = models.CharField(max_length=255, choices=DISABILITY_CHOICES)
+    disability = models.CharField(max_length=255)
 
     def __str__(self):
         return self.name
