@@ -13,12 +13,39 @@ const LESSON_PLAN = ENV + "lesson-plans/";
 const MODEL_PREDICT = ENV + "predict";
 const LPS = ENV + "lps-accommodations/";
 
+const STUDENT = ENV + "students/";
+
+
 const TableItem = (props) => {
   const { lesson } = props;
   const [viewing, setViewing] = useState(false);
   const [isLoading, setIsLoading] = useState();
   const [isEditing, setIsEditing] = useState();
   const [accomodations, setAccomodations] = useState();
+  const [plan, setPlan] = useState();
+  const [student, setStudent] = useState();
+
+  // function submitEdit(event) {
+  //   let uuid;
+  //   axios.get(STUDENT, { params: { uuid:  } });
+  // }
+  function handleSelect(event) {
+    setPlan(event.target.value);
+  }
+
+  useEffect(() => {
+    axios.get(LPS).then((res) => {
+      console.log(res);
+      setAccomodations(res.data);
+    });
+  }, []);
+
+  useEffect(() => {
+    console.log(accomodations);
+  }, [accomodations]);
+
+  useEffect(() => {
+    if (accomodations && accomodations.length === 0) {
 
   function submitEdit(event) {
     event.preventDefault();
@@ -43,6 +70,8 @@ const TableItem = (props) => {
         .then((res) => {
           console.log(res);
           lesson.notLoaded = false;
+          setAccomodations(res.data);
+          setIsLoading(false);
           axios
             .get(LPS)
             .then((res) => {
@@ -57,8 +86,10 @@ const TableItem = (props) => {
           setIsLoading(false);
           lesson.notLoaded = false;
         });
+    } else {
+      setIsLoading(false);
     }
-  }, []);
+  }, [accomodations]);
 
   return (
     <div className="tableRow">
@@ -69,33 +100,24 @@ const TableItem = (props) => {
           <p>{lesson.overview}</p>
           <h2>Objectives</h2>
           <p>{lesson.objectives}</p>
-          <h2>Accomodations</h2>
+          <h2>Accommodations</h2>
           {accomodations &&
-            Object.entries(accomodations).map((a) => {
-              if (Array.isArray(a[1])) {
-                //handle multiple
-              } else {
-                return (
-                  <>
-                    <div className="editAccom">
-                      <h3>{a[0]}</h3>
-                      <button onClick={() => setIsEditing(true)}>Edit</button>
-                    </div>
-                    {isEditing ? (
-                      <form onSubmit={submitEdit}>
-                        <textarea placeholder={a[1]}></textarea>
-                        <button type="submit">Submit</button>
-                        <button onClick={() => setIsEditing(false)}>
-                          Close
-                        </button>
-                      </form>
-                    ) : (
-                      <p>{a[1]}</p>
-                    )}
-                  </>
-                );
-              }
-            })}
+            (!Array.isArray(accomodations)
+              ? Object.entries(accomodations).map((a) => {
+                  <div>
+                    <h3 style={{ color: "#3869FF" }}>{a[0]}</h3>
+                    <p>{a[1]}</p>
+                  </div>;
+                })
+              : accomodations.map((a) => {
+                  return (
+                    <>
+                      <h3 style={{ color: "#3869FF" }}>{a.uuid}</h3>
+                      <p>{a.accommodation}</p>
+                    </>
+                  );
+                }))}
+
 
           <button className="collapseBtn" onClick={() => setViewing(false)}>
             Condense
@@ -207,7 +229,7 @@ const Table = () => {
               <div className="modal-title">Add New Lesson Plan</div>
             </div>
             <div className="modal-body">
-              <form onSubmit={handleSubmit}>
+              <form className="form" onSubmit={handleSubmit}>
                 <div className="colContainer">
                   <div className="firstCol">
                     <label htmlFor="lessonPlanTitle">
