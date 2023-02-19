@@ -20,7 +20,7 @@ class Student(models.Model):
     name = models.CharField(max_length=255)
     standard = models.IntegerField(default = 0)
     disability = models.CharField(max_length=255, choices=DISABILITY_CHOICES)
-    
+
     def __str__(self):
         return self.name
 
@@ -47,7 +47,7 @@ class IEP(models.Model):
     accommodation = models.TextField()
 
     def __str__(self):
-        return self.student + " and their accommodation is: " + self.accommodation
+        return "{} and their accomodation is {}".format(self.student.name, self.accommodation)
 
 class LpsAccommodation(models.Model):
     uuid = models.UUIDField(primary_key=True, unique = True, default = uuid.uuid4, editable = False)
