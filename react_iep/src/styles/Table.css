@@ -41,6 +41,28 @@
 
 .lessonPlan > h1 {
     color: #4F8FFF;
+    font-size: 24px;
+
+}
+
+.lessonPlan > p {
+    color: #4F8FFF;
+    margin-top: -0.5rem;
+    padding-right: 2rem;
+}
+
+.view {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    
+}
+
+.view > h1 {
+    color: #4F8FFF;
+    font-size: 24px;
+
 }
 
 .lessonPlan > p {
@@ -105,4 +127,9 @@ button:hover {
 h2 {
     color: #4F8FFF;
     font-size: 20px;
+}
+
+select {
+    height: 45px;
+
 }

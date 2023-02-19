@@ -40,11 +40,9 @@ const TableItem = (props) => {
         </div>
       ) : (
         <>
-          <div className="lessonPlan">
-            <h1>{lesson.name}</h1>
-            <p>{lesson.overview}</p>
-          </div>
           <div className="view">
+            <h1>{lesson.name}</h1>
+
             {isLoading ? (
               <BarLoader width="160px" speedMultiplier={1.5} />
             ) : (
@@ -94,6 +92,7 @@ const Table = () => {
       overview: overview,
       objectives: objectives,
     };
+    console.log(formData);
     sendData(formData);
   };
 
@@ -155,15 +154,19 @@ const Table = () => {
                     <label htmlFor="subjectTitle">
                       Subject<span>*</span>
                     </label>
-                    <input
-                      className="input"
-                      type="text"
-                      id="subjectTitle"
+                    <select
                       name="subjectTitle"
-                      placeholder="Enter Subject"
-                      required
+                      id="subjectTitle"
                       onChange={handleChange}
-                    />
+                      required
+                      placeholder="Enter Subject"
+                    >
+                      <option value="Math">Math</option>
+                      <option value="Reading & Writing">
+                        Reading & Writing
+                      </option>
+                    </select>
+
                     <label htmlFor="overview">
                       Overview<span>*</span>
                     </label>
