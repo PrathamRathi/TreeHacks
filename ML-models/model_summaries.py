@@ -79,7 +79,7 @@ math_objective_topic_summaries = {
     10: '',
     11: 'solving word problems related to volume',
     12: '',
-    13: 'ord problems related to measurement concepts (temperature, time, shape)'
+    13: 'word problems related to measurement concepts (temperature, time, shape)'
 }
 
 ela_objective_topic_summaries = {
